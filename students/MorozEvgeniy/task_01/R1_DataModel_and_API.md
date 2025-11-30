@@ -140,6 +140,7 @@ Recipes (Основной контент)
 - GET `/recipes?ingredients=uuid1,uuid2&tags=vegan&limit=&offset=` — Логика: поиск рецептов, содержащих перечисленные ингредиенты ("Что в холодильнике").
 - POST `/recipes` — создание рецепта
   - Payload (пример):
+
   ```json
    {
   "title": "Омлет с сыром",
@@ -154,6 +155,7 @@ Recipes (Основной контент)
   "tags": ["uuid-breakfast", "uuid-keto"]
     }
   ```
+
 - GET `/recipes/{id}` — полная информация с вложенными ингредиентами и автором.
 
 MealPlan (Календарь)
@@ -161,6 +163,7 @@ MealPlan (Календарь)
 - GET `/mealplan?from=2023-10-01&to=2023-10-07` — получить план на неделю
 - POST `/mealplan`
   - Payload (пример):
+
   ```json
    {
   "date": "2023-10-05",
@@ -168,6 +171,7 @@ MealPlan (Календарь)
   "recipeId": "uuid-omlet"
     }
   ```
+
   Валидация: проверка корректности даты и существования рецепта.
 
 Shopping List (Список покупок)
@@ -175,26 +179,30 @@ Shopping List (Список покупок)
 - GET `/shopping` — текущий список (сгруппированный)
 - POST `/shopping` — добавить произвольный товар.
   - Payload (пример):
+
   ```json
    {
   "customName": "Губки для посуды",
   "amount": 1
     }
   ```  
+
 - POST `/shopping/generate` — Генерация из плана питания.
   - Payload (пример):
+
   ```json
    {
   "fromDate": "2023-10-01",
   "toDate": "2023-10-07"
     }
-  ```  
+  ```
+  
   Логика:
-   - Найти все MealPlan записи за период.
-   - Извлечь ингредиенты из связанных рецептов.
-   - Агрегировать (суммировать) `amount` для одинаковых `ingredientId`.
-   - Создать записи в ShoppingItem.
-   - Ответ: `200 { "itemsAdded": 15 }`.
+  - Найти все MealPlan записи за период.
+  - Извлечь ингредиенты из связанных рецептов.
+  - Агрегировать (суммировать) `amount` для одинаковых `ingredientId`.
+  - Создать записи в ShoppingItem.
+  - Ответ: `200 { "itemsAdded": 15 }`.
 - PUT `/shopping/{id}/toggle` — инвертировать is_bought.
 - DELETE `/shopping/clear-bought` — удалить все купленные товары.
 
